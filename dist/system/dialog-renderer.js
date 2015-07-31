@@ -36,14 +36,29 @@ System.register(["aurelia-templating"], function (_export) {
 
       DialogRenderer = (function () {
         function DialogRenderer() {
+          var _this = this;
+
           _classCallCheck(this, DialogRenderer);
 
           this.defaultSettings = {
             lock: true
           };
+
+          this.dialogControllers = [];
+
+          document.addEventListener("keypress", function (e) {
+            if (e.keyCode === 27) {
+              var top = _this.dialogControllers[_this.dialogControllers.length - 1];
+              if (top && top.settings.lock !== true) {
+                top.cancel();
+              }
+            }
+          });
         }
 
         DialogRenderer.prototype.createDialogHost = function createDialogHost(controller) {
+          var _this2 = this;
+
           var settings = controller.settings,
               emptyParameters = {},
               modalOverlay = document.createElement("dialog-overlay"),
@@ -59,14 +74,10 @@ System.register(["aurelia-templating"], function (_export) {
           controller.slot.add(controller.view);
 
           controller.showDialog = function () {
+            _this2.dialogControllers.push(controller);
+
             controller.slot.attached();
             controller.centerDialog();
-
-            document.onkeypress = function (e) {
-              if (e.keyCode === 27 && settings.lock !== true) {
-                controller.cancel();
-              }
-            };
 
             modalOverlay.onclick = function () {
               if (!settings.lock) {
@@ -90,6 +101,11 @@ System.register(["aurelia-templating"], function (_export) {
           };
 
           controller.hideDialog = function () {
+            var i = _this2.dialogControllers.indexOf(controller);
+            if (i !== -1) {
+              _this2.dialogControllers.splice(i, 1);
+            }
+
             return new Promise(function (resolve, reject) {
               modalContainer.addEventListener(transitionEvent, onTransitionEnd);
 
