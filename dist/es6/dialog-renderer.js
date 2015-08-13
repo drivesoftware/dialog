@@ -25,13 +25,14 @@ function getNextZIndex(){
 
 export class DialogRenderer {
   defaultSettings = {
-    lock: true
+    lock: true,
+    centerHorizontalOnly: false,
   };
 
   constructor(){
     this.dialogControllers = [];
 
-    document.addEventListener('keypress', e => {
+    document.addEventListener('keyup', e => {
       if (e.keyCode === 27){
         var top = this.dialogControllers[this.dialogControllers.length-1];
         if(top && top.settings.lock !== true){
@@ -112,11 +113,11 @@ export class DialogRenderer {
     controller.centerDialog = () => {
       var child = modalContainer.children[0];
 
-      if(!settings.centerHorizontalOnly){
-        child.style.marginLeft = -(child.offsetWidth/2) + 'px';
-      }
+      child.style.marginLeft = -(child.offsetWidth/2) + 'px';
 
-      child.style.marginTop = -(child.offsetHeight/2) + 'px';
+      if(!settings.centerHorizontalOnly){
+        child.style.marginTop = -(child.offsetHeight/2) + 'px';
+      }
     };
 
     return Promise.resolve();

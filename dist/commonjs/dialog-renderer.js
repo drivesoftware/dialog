@@ -36,12 +36,13 @@ var DialogRenderer = (function () {
     _classCallCheck(this, DialogRenderer);
 
     this.defaultSettings = {
-      lock: true
+      lock: true,
+      centerHorizontalOnly: false
     };
 
     this.dialogControllers = [];
 
-    document.addEventListener("keypress", function (e) {
+    document.addEventListener("keyup", function (e) {
       if (e.keyCode === 27) {
         var top = _this.dialogControllers[_this.dialogControllers.length - 1];
         if (top && top.settings.lock !== true) {
@@ -124,11 +125,11 @@ var DialogRenderer = (function () {
     controller.centerDialog = function () {
       var child = modalContainer.children[0];
 
-      if (!settings.centerHorizontalOnly) {
-        child.style.marginLeft = -(child.offsetWidth / 2) + "px";
-      }
+      child.style.marginLeft = -(child.offsetWidth / 2) + "px";
 
-      child.style.marginTop = -(child.offsetHeight / 2) + "px";
+      if (!settings.centerHorizontalOnly) {
+        child.style.marginTop = -(child.offsetHeight / 2) + "px";
+      }
     };
 
     return Promise.resolve();
