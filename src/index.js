@@ -1,5 +1,5 @@
 export function configure(config) {
-  config.globalResources(
+  config.globalizeResources(
     './dialog',
     './dialog-header',
     './dialog-body',
