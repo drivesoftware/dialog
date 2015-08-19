@@ -4,7 +4,7 @@ System.register(['./dialog-service', './dialog-controller', './examples/prompt']
   _export('configure', configure);
 
   function configure(config) {
-    config.globalizeResources('./dialog', './dialog-header', './dialog-body', './dialog-footer', './attach-focus', './examples/prompt');
+    config.globalResources('./dialog', './dialog-header', './dialog-body', './dialog-footer', './attach-focus', './examples/prompt');
   }
 
   return {
